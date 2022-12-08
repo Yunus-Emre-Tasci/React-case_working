@@ -40,7 +40,7 @@ const App=()=>{
       <div className="container mx-auto py-4">
               {items.map((item,index)=>(
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <input placeholder="Örn:API_URL" className="h-10 rounded bg-white/5 border border-white/20 text-sm px-3 py-2 outline-none" type="text" value={items.key}
+          <input placeholder="Örn:API_URL" className="h-10 rounded bg-white/5 border border-white/20 text-sm px-3 py-2 outline-none" type="text" value={item.key}
            onPaste = {
              e => pasteHandle(e,index)
            }
@@ -55,7 +55,7 @@ const App=()=>{
           < input className = "h-10 rounded bg-white/5 border border-white/20 text-sm px-3 py-2 outline-none ms-2"
           type = "text"
           value = {
-            items.value
+            item.value
           }
           onChange={e=>{
             setItems(items=>items.map((item,i)=>{
