@@ -33,16 +33,7 @@ const App=()=>{
     }
   }
 
-  useEffect(() => {
-    if(items.length===0){
-      setItems([{
-        key:"",
-        value:""
-      }
-      ])
-    }
 
-  }, [items])
   
   return(
     <div className="h-[100vh]">
