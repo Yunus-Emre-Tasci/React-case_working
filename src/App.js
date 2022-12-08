@@ -28,7 +28,7 @@ const App=()=>{
         }
       }).filter(Boolean)
       if (arr.length > 0) {
-        setItems([...items.slice(0,index), ...arr,items.slice(index+1)])
+        setItems([...items.slice(0,index), ...arr,...items.slice(index+1)])
       }
     }
   }
