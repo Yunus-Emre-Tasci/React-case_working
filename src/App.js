@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 
@@ -18,7 +18,13 @@ const App=()=>{
       const arr=pastedData.split("\n").map(text=>{
         if(/([\w]+)=(.+?)/.test(text)){
           let [key,value] =text.split("=")
-          return {key,value}
+          let find=items.find(i=>i.key===key)
+          if(!find||find?.key===items[index].key){
+            return {
+              key,
+              value
+            }
+          }
         }
       }).filter(Boolean)
       if (arr.length > 0) {
@@ -26,6 +32,18 @@ const App=()=>{
       }
     }
   }
+
+  useEffect(() => {
+    if(items.length===0){
+      setItems([{
+        key:"",
+        value:""
+      }
+      ])
+    }
+
+  }, [items])
+  
   return(
     <div className="h-[100vh]">
       <div className="container mx-auto py-4">
@@ -57,7 +75,11 @@ const App=()=>{
             }))
           }}
           />
-          <button onClick={()=>setItems(items.filter((_,key)=>index!==key))} className="ms-2 rounded">X</button>
+          {
+            items.length > 1 && < button onClick = {
+              () => setItems(items.filter((_, key) => index !== key))
+            }
+            className = "ms-2 rounded" > X </button>}
         </div>
       ))}
       < button onClick = {
@@ -67,7 +89,7 @@ const App=()=>{
         }])
       }
       className = "h-10 px-4 rounded border-blue text-blue flex items-center text-sm mt-3" > Yeni Ekle </button>
-      <pre>{JSON.stringify(items,null,2)}</pre>
+      {/* <pre>{JSON.stringify(items,null,2)}</pre> */}
       </div>
     </div>
   )
