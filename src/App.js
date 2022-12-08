@@ -10,16 +10,31 @@ const App=()=>{
       value:""
     }
   ])
+
+  const pasteHandle = (e, index) => {
+    e.preventDefault()
+    const pastedData=e.clipboardData.getData("text")
+    if(pastedData){
+      const arr=pastedData.split("\n").map(text=>{
+        if(/([\w]+)=(.+?)/.test(text)){
+          let [key,value] =text.split("=")
+          return {key,value}
+        }
+      }).filter(Boolean)
+      if (arr.length > 0) {
+        setItems([...items.slice(0,index), ...arr,items.slice(index+1)])
+      }
+    }
+  }
   return(
     <div className="h-[100vh]">
       <div className="container mx-auto py-4">
               {items.map((item,index)=>(
         <div className="grid grid-cols-2 gap-4 mt-4">
           <input placeholder="Örn:API_URL" className="h-10 rounded bg-white/5 border border-white/20 text-sm px-3 py-2 outline-none" type="text" value={items.key}
-           onPaste={e=>{
-            e.preventDefalt()
-            e.clipboardData.getData("text")
-           }}
+           onPaste = {
+             e => pasteHandle(e,index)
+           }
            onChange={e=>{
             setItems(items=>items.map((item,i)=>{
               if(i===index){
@@ -28,7 +43,7 @@ const App=()=>{
               return item
             }))
           }} />
-          < input className = "h-10 rounded bg-white/5 border border-white/20 text-sm px-3 py-2 outline-none"
+          < input className = "h-10 rounded bg-white/5 border border-white/20 text-sm px-3 py-2 outline-none ms-2"
           type = "text"
           value = {
             items.value
@@ -42,6 +57,7 @@ const App=()=>{
             }))
           }}
           />
+          <button onClick={()=>setItems(items.filter((_,key)=>index!==key))} className="ms-2 rounded">X</button>
         </div>
       ))}
       < button onClick = {
